@@ -220,6 +220,9 @@ async function generateScripts() {
 }
 
 async function generateSingle(row: any) {
+  if (!row.id) { ElMessage.error('用例数据异常：缺少ID'); return }
+  if (!window.electronAPI.generateSingleScript) { ElMessage.error('generateSingleScript 未加载，请完全重启应用（非热重载）'); return }
+  ElMessage.info(`正在为 ${row.case_id} 生成脚本...`)
   generatingIds.value = [...generatingIds.value, row.id]
   try {
     const result = await window.electronAPI.generateSingleScript(row)
@@ -229,6 +232,8 @@ async function generateSingle(row: any) {
     } else {
       ElMessage.error(result.error || '生成失败')
     }
+  } catch (e: any) {
+    ElMessage.error('生成异常: ' + (e.message || String(e)))
   } finally {
     generatingIds.value = generatingIds.value.filter(id => id !== row.id)
   }
