@@ -53,7 +53,7 @@
         <el-table-column label="操作" width="160" fixed="right">
           <template #default="{ row }">
             <el-button size="small" @click="editCase(row)">编辑</el-button>
-            <el-button size="small" type="success" :loading="generatingIds.has(row.id)" @click="generateSingle(row)">生成</el-button>
+            <el-button size="small" type="success" :loading="generatingIds.includes(row.id)" @click="generateSingle(row)">生成</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -149,7 +149,7 @@ const filteredCases = computed(() => {
 })
 
 // 单脚本生成跟踪
-const generatingIds = ref<Set<number>>(new Set())
+const generatingIds = ref<number[]>([])
 
 // 编辑
 const editDialogVisible = ref(false)
@@ -220,7 +220,7 @@ async function generateScripts() {
 }
 
 async function generateSingle(row: any) {
-  generatingIds.value = new Set([...generatingIds.value, row.id])
+  generatingIds.value = [...generatingIds.value, row.id]
   try {
     const result = await window.electronAPI.generateSingleScript(row)
     if (result.success) {
@@ -230,9 +230,7 @@ async function generateSingle(row: any) {
       ElMessage.error(result.error || '生成失败')
     }
   } finally {
-    const next = new Set(generatingIds.value)
-    next.delete(row.id)
-    generatingIds.value = next
+    generatingIds.value = generatingIds.value.filter(id => id !== row.id)
   }
 }
 </script>
