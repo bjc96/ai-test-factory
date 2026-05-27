@@ -201,13 +201,13 @@ function loadUploadExample() {
 </script>
 
 <style scoped>
-.requirement-input { max-width: 1000px; margin: 0 auto; }
-.input-card { margin-top: 16px; margin-bottom: 16px; }
+
+
 .example-card { margin-bottom: 16px; }
 .result-section { margin-top: 16px; }
 .fp-card { margin-bottom: 12px; }
 .fp-header { display: flex; align-items: center; gap: 8px; }
 .fp-name { font-weight: 600; font-size: 15px; }
-.fp-desc { color: #606266; margin: 4px 0; font-size: 13px; }
+.fp-desc { color:var(--text2); margin: 4px 0; font-size: 13px; }
 .action-bar { margin-top: 20px; display: flex; gap: 12px; }
 </style>

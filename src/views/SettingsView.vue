@@ -88,6 +88,6 @@ async function saveSettings() {
 
 <style scoped>
 .settings { max-width: 800px; margin: 0 auto; }
-.page-title { font-size: 24px; margin-bottom: 20px; color: #303133; }
+
 .settings-card { margin-bottom: 16px; }
 </style>

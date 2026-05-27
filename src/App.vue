@@ -1,83 +1,59 @@
 <template>
-  <el-container class="app-container">
-    <el-aside width="200px" class="app-sidebar">
-      <div class="logo">
-        <h2>智能测试工场</h2>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-dot"></span>
+          <span class="logo-text">智能测试工场</span>
+        </div>
       </div>
-      <el-menu
-        :default-active="currentRoute"
-        router
-        background-color="#304156"
-        text-color="#bfcbd9"
-        active-text-color="#409EFF"
-      >
-        <el-menu-item index="/dashboard">
-          
-          <span>仪表盘</span>
-        </el-menu-item>
-        <el-menu-item index="/requirements">
-          
-          <span>需求管理</span>
-        </el-menu-item>
-        <el-menu-item index="/test-cases">
-          
-          <span>测试用例</span>
-        </el-menu-item>
-        <el-menu-item index="/scripts">
-          
-          <span>脚本管理</span>
-        </el-menu-item>
-        <el-menu-item index="/settings">
-          
-          <span>设置</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
-    <el-main class="app-main">
+      <nav class="sidebar-nav">
+        <router-link to="/dashboard" class="nav-item" active-class="active">
+          &#9703; 仪表盘
+        </router-link>
+        <router-link to="/requirements" class="nav-item" active-class="active">
+          &#9776; 需求管理
+        </router-link>
+        <router-link to="/test-cases" class="nav-item" active-class="active">
+          &#9776; 测试用例
+        </router-link>
+        <router-link to="/scripts" class="nav-item" active-class="active">
+          &#9776; 脚本管理
+        </router-link>
+        <router-link to="/settings" class="nav-item" active-class="active">
+          &#9881; 设置
+        </router-link>
+      </nav>
+      <div class="sidebar-footer">v1.0.0</div>
+    </aside>
+    <main class="main-area">
       <router-view />
-    </el-main>
-  </el-container>
+    </main>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
-const currentRoute = computed(() => route.path)
-</script>
-
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 200px; background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0; position: fixed;
+  top: 0; left: 0; bottom: 0; z-index: 100;
 }
-body {
-  font-family: 'Microsoft YaHei', '微软雅黑', sans-serif;
-  background: #f0f2f5;
+.sidebar-header { padding: 18px 16px; border-bottom: 1px solid var(--border); }
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; display: inline-block; }
+.logo-text { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; }
+.sidebar-nav { flex: 1; padding: 8px 0; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 9px 16px;
+  color: var(--muted); font-size: 13px; text-decoration: none;
+  cursor: pointer; transition: all 0.15s; border-left: 2px solid transparent;
 }
-.app-container {
-  height: 100vh;
+.nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.nav-item.active {
+  color: var(--text); background: rgba(129,140,248,0.08);
+  border-left-color: var(--accent);
 }
-.app-sidebar {
-  background-color: #304156;
-  overflow-y: auto;
-}
-.app-sidebar .logo {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.app-sidebar .logo h2 {
-  color: #fff;
-  font-size: 18px;
-  font-weight: 600;
-}
-.app-main {
-  padding: 20px;
-  overflow-y: auto;
-  background: #f0f2f5;
-}
+.sidebar-footer { padding: 10px 16px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); }
+.main-area { margin-left: 200px; flex: 1; padding: 24px 28px; min-height: 100vh; }
 </style>

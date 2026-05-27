@@ -57,7 +57,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin-top: 8px; color: #909399; font-size: 13px;">
+      <div style="margin-top: 8px; color:var(--muted); font-size: 13px;">
         共 {{ filteredCases.length }} 条用例
       </div>
     </el-card>

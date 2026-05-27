@@ -60,6 +60,6 @@ async function deleteReq(id: number) {
 
 <style scoped>
 .requirement-list { max-width: 1100px; margin: 0 auto; }
-.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.page-title { font-size: 24px; color: #303133; }
+
+
 </style>

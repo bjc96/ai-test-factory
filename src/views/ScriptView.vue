@@ -48,8 +48,8 @@
     <!-- 加载中 -->
     <div v-if="generating" style="text-align:center;padding:40px">
       
-      <p style="margin-top:12px;color:#909399">正在生成 Playwright 脚本，请稍候...</p>
-      <p style="color:#909399;font-size:12px">这可能需要 1-3 分钟</p>
+      <p style="margin-top:12px;color:var(--muted);">正在生成 Playwright 脚本，请稍候...</p>
+      <p style="color:var(--muted);font-size:12px">这可能需要 1-3 分钟</p>
     </div>
   </div>
 </template>
@@ -105,5 +105,5 @@ async function runScript() {
 <style scoped>
 .script-view { max-width: 1000px; margin: 0 auto; }
 .toolbar-card { margin-top: 16px; margin-bottom: 16px; }
-code { background: #f0f2f5; padding: 2px 6px; border-radius: 3px; font-size: 12px; }
+code { background:var(--bg); padding: 2px 6px; border-radius: 3px; font-size: 12px; }
 </style>

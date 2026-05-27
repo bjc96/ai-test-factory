@@ -98,10 +98,10 @@ function viewTestCases() {
 <style scoped>
 .requirement-detail { max-width: 1000px; margin: 0 auto; }
 .detail-card { margin-top: 16px; margin-bottom: 16px; }
-.raw-text { white-space: pre-wrap; font-size: 13px; max-height: 200px; overflow-y: auto; background: #f8f8f8; padding: 8px; border-radius: 4px; }
+.raw-text { white-space: pre-wrap; font-size: 13px; max-height: 200px; overflow-y: auto; background:var(--surface2); padding: 8px; border-radius: 4px; }
 .fp-section { margin-bottom: 16px; }
-.fp-block { margin-bottom: 20px; border-bottom: 1px dashed #ebeef5; padding-bottom: 12px; }
+.fp-block { margin-bottom: 20px; border-color:var(--border); padding-bottom: 12px; }
 .fp-block:last-child { border-bottom: none; }
 .fp-title { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 15px; }
-.fp-desc { color: #606266; font-size: 13px; margin: 4px 0 8px 0; }
+.fp-desc { color:var(--text2); font-size: 13px; margin: 4px 0 8px 0; }
 </style>
