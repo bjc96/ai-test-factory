@@ -225,7 +225,16 @@ async function generateSingle(row: any) {
   ElMessage.info(`正在为 ${row.case_id} 生成脚本...`)
   generatingIds.value = [...generatingIds.value, row.id]
   try {
-    const result = await window.electronAPI.generateSingleScript(row)
+    // 只传纯数据，避免 Vue 响应式代理导致 IPC 序列化失败
+    const plain = {
+      case_id: row.case_id,
+      module: row.module,
+      case_name: row.case_name,
+      test_level: row.test_level,
+      test_steps: row.test_steps,
+      expected_result: row.expected_result
+    }
+    const result = await window.electronAPI.generateSingleScript(plain)
     if (result.success) {
       ElMessage.success(`${row.case_id} 脚本已生成，共 ${result.fileCount} 个文件`)
       await window.electronAPI.openFolder(result.outputDir)
