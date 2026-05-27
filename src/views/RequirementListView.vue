@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1 class="page-title">需求管理</h1>
       <el-button type="primary" @click="$router.push('/requirements/new')">
-        <el-icon><Plus /></el-icon> 新建需求
+         新建需求
       </el-button>
     </div>
 

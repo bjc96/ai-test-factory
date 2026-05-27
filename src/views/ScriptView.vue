@@ -5,13 +5,13 @@
     <el-card class="toolbar-card">
       <el-space>
         <el-button type="primary" @click="generateScripts" :loading="generating">
-          <el-icon><MagicStick /></el-icon> {{ scripts.length > 0 ? '重新生成脚本' : '生成 Playwright 脚本' }}
+           {{ scripts.length > 0 ? '重新生成脚本' : '生成 Playwright 脚本' }}
         </el-button>
         <el-button type="success" @click="openScriptFolder" :disabled="!currentDir">
-          <el-icon><FolderOpened /></el-icon> 打开脚本目录
+           打开脚本目录
         </el-button>
         <el-button type="warning" @click="runScript" :disabled="!currentDir">
-          <el-icon><VideoPlay /></el-icon> 运行测试
+           运行测试
         </el-button>
       </el-space>
     </el-card>
@@ -47,7 +47,7 @@
 
     <!-- 加载中 -->
     <div v-if="generating" style="text-align:center;padding:40px">
-      <el-icon class="is-loading" :size="40"><Loading /></el-icon>
+      
       <p style="margin-top:12px;color:#909399">正在生成 Playwright 脚本，请稍候...</p>
       <p style="color:#909399;font-size:12px">这可能需要 1-3 分钟</p>
     </div>

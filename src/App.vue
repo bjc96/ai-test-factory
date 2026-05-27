@@ -12,23 +12,23 @@
         active-text-color="#409EFF"
       >
         <el-menu-item index="/dashboard">
-          <el-icon><Odometer /></el-icon>
+          
           <span>仪表盘</span>
         </el-menu-item>
         <el-menu-item index="/requirements">
-          <el-icon><Document /></el-icon>
+          
           <span>需求管理</span>
         </el-menu-item>
         <el-menu-item index="/test-cases">
-          <el-icon><DataAnalysis /></el-icon>
+          
           <span>测试用例</span>
         </el-menu-item>
         <el-menu-item index="/scripts">
-          <el-icon><Files /></el-icon>
+          
           <span>脚本管理</span>
         </el-menu-item>
         <el-menu-item index="/settings">
-          <el-icon><Setting /></el-icon>
+          
           <span>设置</span>
         </el-menu-item>
       </el-menu>

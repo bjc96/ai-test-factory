@@ -14,7 +14,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" size="large" @click="startAnalysis" :loading="loading" :disabled="!requirementText.trim()">
-            <el-icon><MagicStick /></el-icon>
+            
             {{ loading ? 'AI 正在分析中...' : '开始智能分析' }}
           </el-button>
           <el-button size="large" @click="$router.push('/requirements')">取消</el-button>
@@ -71,7 +71,7 @@
 
       <div class="action-bar">
         <el-button type="primary" size="large" @click="goToGenerateCases" :loading="loading">
-          <el-icon><MagicStick /></el-icon> 生成测试用例
+           生成测试用例
         </el-button>
         <el-button size="large" @click="$router.push('/requirements')">保存并返回列表</el-button>
       </div>

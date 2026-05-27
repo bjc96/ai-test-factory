@@ -6,13 +6,13 @@
     <el-card class="toolbar-card">
       <el-space>
         <el-button type="primary" @click="exportExcel" :loading="exporting">
-          <el-icon><Download /></el-icon> 导出 Excel
+           导出 Excel
         </el-button>
         <el-button type="success" @click="generateScripts" :loading="generating">
-          <el-icon><MagicStick /></el-icon> 生成自动化脚本
+           生成自动化脚本
         </el-button>
         <el-button @click="$router.push(`/scripts/${requirementId}`)">
-          <el-icon><Files /></el-icon> 查看脚本
+           查看脚本
         </el-button>
         <el-input v-model="searchText" placeholder="搜索用例..." clearable style="width:220px" />
         <el-select v-model="levelFilter" placeholder="优先级" clearable style="width:100px">
@@ -53,7 +53,7 @@
         <el-table-column label="操作" width="160" fixed="right">
           <template #default="{ row }">
             <el-button size="small" @click="editCase(row)">编辑</el-button>
-            <el-button size="small" type="success" :loading="row._generating" @click="generateSingle(row)">生成</el-button>
+            <el-button size="small" type="success" :loading="generatingIds.has(row.id)" @click="generateSingle(row)">生成</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -148,6 +148,9 @@ const filteredCases = computed(() => {
   return list
 })
 
+// 单脚本生成跟踪
+const generatingIds = ref<Set<number>>(new Set())
+
 // 编辑
 const editDialogVisible = ref(false)
 const editForm = ref<Partial<TestCase> & { id: number }>({
@@ -217,7 +220,7 @@ async function generateScripts() {
 }
 
 async function generateSingle(row: any) {
-  row._generating = true
+  generatingIds.value = new Set([...generatingIds.value, row.id])
   try {
     const result = await window.electronAPI.generateSingleScript(row)
     if (result.success) {
@@ -227,7 +230,9 @@ async function generateSingle(row: any) {
       ElMessage.error(result.error || '生成失败')
     }
   } finally {
-    row._generating = false
+    const next = new Set(generatingIds.value)
+    next.delete(row.id)
+    generatingIds.value = next
   }
 }
 </script>

@@ -38,17 +38,17 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-button type="primary" size="large" @click="$router.push('/requirements/new')" style="width:100%">
-            <el-icon><Plus /></el-icon> 新建需求分析
+             新建需求分析
           </el-button>
         </el-col>
         <el-col :span="8">
           <el-button type="success" size="large" @click="handleImportExcel" style="width:100%">
-            <el-icon><Upload /></el-icon> 导入测试用例 Excel
+             导入测试用例 Excel
           </el-button>
         </el-col>
         <el-col :span="8">
           <el-button type="warning" size="large" @click="$router.push('/requirements')" style="width:100%">
-            <el-icon><List /></el-icon> 查看需求历史
+             查看需求历史
           </el-button>
         </el-col>
       </el-row>

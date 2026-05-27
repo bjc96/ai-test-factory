@@ -3,7 +3,7 @@
     <div class="page-header">
       <h1 class="page-title">测试用例</h1>
       <el-button type="primary" @click="handleImport">
-        <el-icon><Upload /></el-icon> 导入 Excel
+         导入 Excel
       </el-button>
     </div>
 
