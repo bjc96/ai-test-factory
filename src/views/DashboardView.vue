@@ -54,6 +54,18 @@
       </el-row>
     </el-card>
 
+    <el-card class="samples-card">
+      <template #header><span>示例需求文档（点击直接加载并分析）</span></template>
+      <el-row :gutter="12">
+        <el-col :span="8" v-for="s in samples" :key="s.name">
+          <el-card shadow="hover" class="sample-item" @click="loadSample(s)">
+            <div style="font-weight:600;font-size:14px;">{{ s.name }}</div>
+            <div style="font-size:12px;color:#909399;margin-top:4px;">{{ s.text.length }} 字符</div>
+          </el-card>
+        </el-col>
+      </el-row>
+    </el-card>
+
     <el-card class="recent-card" v-if="recentRequirements.length > 0">
       <template #header>
         <span>最近需求</span>
@@ -80,14 +92,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+
+const router = useRouter()
 
 const stats = ref({ totalRequirements: 0, totalTestCases: 0, totalScripts: 0 })
 const claudeAvailable = ref(false)
 const claudePath = ref('')
 const recentRequirements = ref<any[]>([])
+const samples = ref<{name:string;text:string}[]>([])
 
 onMounted(async () => {
+  samples.value = await window.electronAPI.getSamples()
+
   const reqs = await window.electronAPI.getRequirements()
   stats.value.totalRequirements = reqs.length
   recentRequirements.value = reqs.slice(0, 5)
@@ -114,6 +132,22 @@ async function handleImportExcel() {
     stats.value.totalTestCases += result.importedCount
   } else {
     ElMessage.error(result.error || result.errors?.join('; ') || '导入失败')
+  }
+}
+
+async function loadSample(sample: {name:string; text:string}) {
+  ElMessage.info(`正在分析「${sample.name}」...`)
+  try {
+    const result = await window.electronAPI.analyzeRequirement(sample.text)
+    if (result.success) {
+      ElMessage.success(`「${sample.name}」分析完成！`)
+      stats.value.totalRequirements++
+      router.push(`/requirements/${result.requirementId}`)
+    } else {
+      ElMessage.error(result.error || '分析失败')
+    }
+  } catch (e: any) {
+    ElMessage.error('分析异常: ' + (e.message || String(e)))
   }
 }
 </script>

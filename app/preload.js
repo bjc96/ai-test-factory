@@ -20,5 +20,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getSettings: () => ipcRenderer.invoke('get-settings'),
   saveSettings: (settings) => ipcRenderer.invoke('save-settings', settings),
   checkClaude: () => ipcRenderer.invoke('check-claude'),
+  getSamples: () => ipcRenderer.invoke('get-samples'),
   runScript: (path) => ipcRenderer.invoke('run-script', path)
 })

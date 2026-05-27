@@ -1,8 +1,29 @@
 const { exec } = require('child_process')
 const { writeFile, unlink, appendFile, mkdir } = require('fs/promises')
-const { existsSync } = require('fs')
+const { existsSync, readFileSync } = require('fs')
 const { app } = global.electron
-const { join } = require('path')
+const { join, dirname } = require('path')
+
+// 读取用户配置文件
+function loadConfig() {
+  const configPaths = [
+    join(app.getPath('userData'), 'config.json'),
+    join(dirname(app.getPath('exe')), 'config.json'),
+    join(process.cwd(), 'config.json')
+  ]
+  for (const p of configPaths) {
+    if (existsSync(p)) {
+      try {
+        return JSON.parse(readFileSync(p, 'utf-8'))
+      } catch {}
+    }
+  }
+  return {}
+}
+
+const userConfig = loadConfig()
+const configCliPaths = userConfig.claude?.paths || []
+const configTimeout = (userConfig.claude?.timeout || 600) * 1000
 
 // 日志文件
 let _logPath = null
@@ -21,13 +42,20 @@ async function log(msg) {
   console.log(msg)
 }
 
-const KNOWN_CLI_PATHS = [
+// 内置路径 + config.json 中用户自定义路径（优先）
+function expandPath(p) {
+  return p.replace(/%APPDATA%/g, process.env.APPDATA || '')
+          .replace(/%USERPROFILE%/g, process.env.USERPROFILE || '')
+}
+const configExpanded = configCliPaths.map(expandPath)
+const builtinPaths = [
   join(process.env.APPDATA || '', 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe'),
   join(process.env.USERPROFILE || '', 'AppData', 'Roaming', 'npm', 'node_modules', '@anthropic-ai', 'claude-code', 'bin', 'claude.exe'),
   'claude',
   join(process.env.APPDATA || '', 'npm', 'claude.cmd'),
   join(process.env.USERPROFILE || '', 'AppData', 'Roaming', 'npm', 'claude.cmd')
 ]
+const KNOWN_CLI_PATHS = [...new Set([...configExpanded, ...builtinPaths])]
 
 let _cliPath = null
 let _failedPaths = new Set()
@@ -76,7 +104,7 @@ class ClaudeCliService {
         const child = exec(cmd, {
           shell: 'bash',
           maxBuffer: 10 * 1024 * 1024,
-          timeout: 600000,
+          timeout: configTimeout,
           cwd: app.getPath('home')
         }, (error, stdout, stderr) => {
           unlink(promptPath).catch(() => {})

@@ -1,8 +1,13 @@
 const { dbService } = require('../services/db')
 const { claudeCliService } = require('../services/claude-cli')
 const { REQUIREMENT_ANALYSIS_PROMPT } = require('../prompts')
+const samples = require('../samples')
 
 function registerRequirementHandlers(ipcMain) {
+  // 获取示例需求列表
+  ipcMain.handle('get-samples', async () => {
+    return Object.keys(samples).map(name => ({ name, text: samples[name] }))
+  })
   ipcMain.handle('analyze-requirement', async (_event, text) => {
     try {
       await dbService.init()
